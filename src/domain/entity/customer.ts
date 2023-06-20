@@ -1,6 +1,12 @@
 import Address from "./address";
+import EventDispatcher from "../event/@shared/event-dispatcher";
+import FirstCustomerCreatedEvent from "../event/customer/first-customer-created.event";
+import SecondCustomerCreatedEvent from "../event/customer/second-customer-created.event";
+import CustomerAddressChangedEvent from "../event/customer/customer-address-changed.event";
 
 export default class Customer {
+    static _eventDispatcher: EventDispatcher;
+
     private _id: string;
     private _name: string = "";
     private _address!: Address;
@@ -11,6 +17,7 @@ export default class Customer {
         this._id = id;
         this._name = name;
         this.validate();
+        this.createdEvents();
     }
 
     get id(): string {
@@ -45,6 +52,7 @@ export default class Customer {
 
     changeAddress(address: Address) {
         this._address = address;
+        this.changedAdressEvents();
     }
 
     isActive(): boolean {
@@ -68,5 +76,22 @@ export default class Customer {
 
     set Address(address: Address) {
         this._address = address;
+    }
+
+    createdEvents(): void {
+        if (Customer._eventDispatcher) {
+            const firstCustomerCreatedEvent = new FirstCustomerCreatedEvent(this);
+            const secondCustomerCreatedEvent = new SecondCustomerCreatedEvent(this);
+
+            Customer._eventDispatcher.notify(firstCustomerCreatedEvent);
+            Customer._eventDispatcher.notify(secondCustomerCreatedEvent);
+        }
+    }
+
+    changedAdressEvents(): void {
+        if (Customer._eventDispatcher) {
+            const customerAddressChangedEvent = new CustomerAddressChangedEvent(this);
+            Customer._eventDispatcher.notify(customerAddressChangedEvent);
+        }
     }
 }

@@ -1,5 +1,9 @@
 import Customer from "./customer";
 import Address from "./address";
+import EventDispatcher from "../event/@shared/event-dispatcher";
+import FirstCustomerCreatedEventHandler from "../event/customer/handler/first-customer-created-event-handler.handler";
+import SecondCustomerCreatedEventHandler from "../event/customer/handler/second-customer-created-event-handler.handler";
+import CustomerAddressChangedEventHandler from "../event/customer/handler/customer-address-changed-event-handler.handler";
 
 describe("Customer unit tests", () => {
     it("should throw error when id is empty", () => {
@@ -61,4 +65,82 @@ describe("Customer unit tests", () => {
         customer.addRewardPoints(10);
         expect(customer.rewardPoints).toBe(20);
     })
+
+    it("should send first customer creation event", () => {
+        const eventDispatcher = new EventDispatcher();
+        const eventHandler = new FirstCustomerCreatedEventHandler();
+
+        Customer._eventDispatcher = eventDispatcher;
+
+        const spyEventHandler = jest.spyOn(eventHandler, "handle");
+
+        eventDispatcher.register("FirstCustomerCreatedEvent", eventHandler);
+
+        new Customer("1", "Customer 1");
+
+        expect(spyEventHandler).toHaveBeenCalled();
+    });
+
+    it("should send second customer creation event", () => {
+        const eventDispatcher = new EventDispatcher();
+        const eventHandler = new SecondCustomerCreatedEventHandler();
+
+        Customer._eventDispatcher = eventDispatcher;
+
+        const spyEventHandler = jest.spyOn(eventHandler, "handle");
+
+        eventDispatcher.register("SecondCustomerCreatedEvent", eventHandler);
+
+        new Customer("1", "Customer 1");
+
+        expect(spyEventHandler).toHaveBeenCalled();
+    });
+
+    it("should not send customer creation event", () => {
+        const eventDispatcher = new EventDispatcher();
+        const eventHandler = new SecondCustomerCreatedEventHandler();
+
+        const spyEventHandler = jest.spyOn(eventHandler, "handle");
+
+        eventDispatcher.register("SecondCustomerCreatedEvent", eventHandler);
+
+        new Customer("1", "Customer 1");
+
+        expect(spyEventHandler).not.toHaveBeenCalled();
+    });
+
+
+    it("should send customer adress changed event", () => {
+        const eventDispatcher = new EventDispatcher();
+        const eventHandler = new CustomerAddressChangedEventHandler();
+
+        Customer._eventDispatcher = eventDispatcher;
+
+        const spyEventHandler = jest.spyOn(eventHandler, "handle");
+
+        eventDispatcher.register("CustomerAddressChangedEvent", eventHandler);
+
+        const customer = new Customer("1", "Customer 1");
+
+        const address = new Address("Street 1", 123, "13330-250", "São Paulo");
+        customer.changeAddress(address);
+
+        expect(spyEventHandler).toHaveBeenCalled();
+    });
+
+    it("should not send customer adress changed event", () => {
+        const eventDispatcher = new EventDispatcher();
+        const eventHandler = new CustomerAddressChangedEventHandler();
+
+        const spyEventHandler = jest.spyOn(eventHandler, "handle");
+
+        eventDispatcher.register("CustomerAddressChangedEvent", eventHandler);
+
+        const customer = new Customer("1", "Customer 1");
+
+        const address = new Address("Street 1", 123, "13330-250", "São Paulo");
+        customer.changeAddress(address);
+
+        expect(spyEventHandler).not.toHaveBeenCalled();
+    });
 })
