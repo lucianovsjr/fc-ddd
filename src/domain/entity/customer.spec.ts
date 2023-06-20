@@ -74,7 +74,7 @@ describe("Customer unit tests", () => {
 
         const spyEventHandler = jest.spyOn(eventHandler, "handle");
 
-        eventDispatcher.register("FirstCustomerCreatedEvent", eventHandler);
+        eventDispatcher.register("CustomerCreatedEvent", eventHandler);
 
         new Customer("1", "Customer 1");
 
@@ -89,7 +89,7 @@ describe("Customer unit tests", () => {
 
         const spyEventHandler = jest.spyOn(eventHandler, "handle");
 
-        eventDispatcher.register("SecondCustomerCreatedEvent", eventHandler);
+        eventDispatcher.register("CustomerCreatedEvent", eventHandler);
 
         new Customer("1", "Customer 1");
 
@@ -102,7 +102,7 @@ describe("Customer unit tests", () => {
 
         const spyEventHandler = jest.spyOn(eventHandler, "handle");
 
-        eventDispatcher.register("SecondCustomerCreatedEvent", eventHandler);
+        eventDispatcher.register("CustomerCreatedEvent", eventHandler);
 
         new Customer("1", "Customer 1");
 

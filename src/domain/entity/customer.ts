@@ -1,7 +1,6 @@
 import Address from "./address";
 import EventDispatcher from "../event/@shared/event-dispatcher";
-import FirstCustomerCreatedEvent from "../event/customer/first-customer-created.event";
-import SecondCustomerCreatedEvent from "../event/customer/second-customer-created.event";
+import CustomerCreatedEvent from "../event/customer/customer-created.event";
 import CustomerAddressChangedEvent from "../event/customer/customer-address-changed.event";
 
 export default class Customer {
@@ -80,8 +79,8 @@ export default class Customer {
 
     createdEvents(): void {
         if (Customer._eventDispatcher) {
-            const firstCustomerCreatedEvent = new FirstCustomerCreatedEvent(this);
-            const secondCustomerCreatedEvent = new SecondCustomerCreatedEvent(this);
+            const firstCustomerCreatedEvent = new CustomerCreatedEvent(this);
+            const secondCustomerCreatedEvent = new CustomerCreatedEvent(this);
 
             Customer._eventDispatcher.notify(firstCustomerCreatedEvent);
             Customer._eventDispatcher.notify(secondCustomerCreatedEvent);

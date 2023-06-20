@@ -1,8 +1,8 @@
 import EventHandlerInterface from "../../@shared/event-handler.interface";
-import SecondCustomerCreatedEvent from "../second-customer-created.event";
+import CustomerCreatedEvent from "../customer-created.event";
 
-export default class FirstCustomerCreatedEventHandler2 implements EventHandlerInterface<SecondCustomerCreatedEvent> {
-    handle(event: SecondCustomerCreatedEvent): void {
+export default class FirstCustomerCreatedEventHandler2 implements EventHandlerInterface<CustomerCreatedEvent> {
+    handle(event: CustomerCreatedEvent): void {
         console.log("Esse é o segundo console.log do evento: CustomerCreated");
     }
 }
