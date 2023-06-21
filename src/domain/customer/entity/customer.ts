@@ -1,5 +1,5 @@
-import Address from "./address";
-import EventDispatcher from "../event/@shared/event-dispatcher";
+import Address from "../value-object/address";
+import EventDispatcher from "../../@shared/event/event-dispatcher";
 import CustomerCreatedEvent from "../event/customer/customer-created.event";
 import CustomerAddressChangedEvent from "../event/customer/customer-address-changed.event";
 
