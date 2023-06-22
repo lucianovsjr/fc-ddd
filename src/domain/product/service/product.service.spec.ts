@@ -4,6 +4,7 @@ import ProductService from "./product.service";
 describe("Product service unit tests", () => {
 
     it("should change the prices of all products", () => {
+        // Poderiamos utilizar a factory de product aqui, mas não será feito no curso
         const product1 = new Product("1", "product1", 10);
         const product2 = new Product("2", "product2", 20);
         const products = [product1, product2];
